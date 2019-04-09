@@ -27,8 +27,15 @@ class NodeHeader extends Component {
         const {animations, decorators, node, onClick, style} = this.props;
         const {active, children} = node;
         const terminal = !children;
-        const container = [style.link, active ? style.activeLink : null];
-        const headerStyles = Object.assign({container}, style);
+        
+        // (8/4/19) markdoub: changed to fix firefox problem:
+        // TypeError: CSS2Properties doesn't have an indexed property setter for '0'
+        // https://github.com/storybooks/react-treebeard/issues/148
+        
+        // const container = [style.link, active ? style.activeLink : null];
+        // const headerStyles = Object.assign({container}, style);
+        const activeLink = active ? style.activeLink : null;
+        const headerStyles = Object.assign({}, style, style.link, activeLink);
 
         return (
             <decorators.Container
